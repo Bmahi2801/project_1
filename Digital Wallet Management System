@@ -1,0 +1,51 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+int main() {
+    int n, t;
+    cin >> n;
+    
+    vector<int> userId(n), balance(n);
+
+    for (int i = 0; i < n; i++) {
+        cin >> userId[i] >> balance[i];
+    }
+
+    cin >> t;
+
+    for (int i = 0; i < t; i++) {
+        int from_userID, to_userID, amount;
+        cin >> from_userID >> to_userID >> amount;
+
+        int from_index = -1, to_index = -1;
+
+        for (int j = 0; j < n; j++) {
+            if (userId[j] == from_userID) from_index = j;
+            if (userId[j] == to_userID) to_index = j;
+        }
+
+        if (from_index != -1 && to_index != -1 && balance[from_index] >= amount) {
+            balance[from_index] -= amount;
+            balance[to_index] += amount;
+            cout << "Success" << endl;
+        } else {
+            cout << "Failure" << endl;
+        }
+    }
+
+    cout << endl;
+    
+    vector<pair<int, int>> users;
+    for (int i = 0; i < n; i++) {
+        users.push_back({balance[i], userId[i]});
+    }
+    sort(users.begin(), users.end());
+
+    for (int i = 0; i < n; i++) {
+        cout << users[i].second << " " << users[i].first << endl;
+    }
+
+    return 0;
+}
